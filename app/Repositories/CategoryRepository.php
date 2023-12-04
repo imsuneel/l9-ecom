@@ -11,11 +11,25 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function all($attributes = [], $all = false): LengthAwarePaginator|Collection
     {
-        return Category::get();
+        $results = Category::field(data_get($attributes, 'fields'))
+            ->include($attributes)
+            ->filter(data_get($attributes, 'filter'));
+
+        if ($all) {
+            $results = $results->get();
+        } else {
+            $results = $results->paginate(data_get($attributes, 'per_page', config('globals.pagination.per_page')))
+                ->appends(data_get($attributes, 'query'));
+        }
+
+        return $results;
     }
 
-    public function get($id): Category
+    public function get($id, $attributes = []): Category
     {
-        return Category::findOrFail($id);
+        return Category::field(data_get($attributes, 'fields'))
+            ->include($attributes)
+            ->filter(data_get($attributes, 'filter'))
+            ->findOrFail($id);
     }
 }

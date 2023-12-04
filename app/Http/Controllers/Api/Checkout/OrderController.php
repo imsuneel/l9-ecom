@@ -50,7 +50,7 @@ class OrderController extends Controller
         ]);
 
         if (! $cartProducts->count()) {
-            return response()->error(trans('system.cart.empty'));
+            return response()->error(trans('system.cart.empty'), [], Response::HTTP_BAD_REQUEST);
         }
         $this->orderRepository->setUser($request->user());
 
@@ -68,7 +68,7 @@ class OrderController extends Controller
         ]);
 
         if (! $cartProducts->count()) {
-            return response()->error(trans('system.cart.empty'));
+            return response()->error(trans('system.cart.empty'), [], Response::HTTP_BAD_REQUEST);
         }
 
         $this->orderRepository->setUser($request->user());

@@ -10,5 +10,5 @@ interface CategoryRepositoryInterface
 {
     public function all($attributes = [], $all = false): LengthAwarePaginator|Collection;
 
-    public function get($id): Category;
+    public function get($id, $attributes = []): Category;
 }

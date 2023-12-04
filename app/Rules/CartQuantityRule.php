@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CartQuantityRule implements Rule
 {
-    private $product_id;
+    private int $product_id;
 
     /**
      * Create a new rule instance.

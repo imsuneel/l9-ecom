@@ -7,6 +7,7 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Category\CategoryResourceCollection;
 use App\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -26,12 +27,16 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $attributes = $request->all();
+        $attributes['query'] = $request->query();
 
-        return response()->success((new CategoryResourceCollection($this->categoryRepository->all($attributes, true))));
+        return response()->success((new CategoryResourceCollection($this->categoryRepository->all($attributes, $request->filled('all')))), Response::HTTP_OK, true);
     }
 
     public function show(Request $request, $id)
     {
-        return response()->success((new CategoryResource($this->categoryRepository->get($id))));
+        $attributes = $request->all();
+        $attributes['query'] = $request->query();
+
+        return response()->success((new CategoryResource($this->categoryRepository->get($id, $attributes))));
     }
 }
